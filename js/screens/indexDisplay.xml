@@ -1,0 +1,11 @@
+<bs.Grid bool:fluid="true">
+  <bs.Row>
+    <bs.Col int:md="10" int:mdOffset="1">
+      <bs.Panel header="Targets" id="targets">
+        <bs.Well>No Targets</bs.Well>
+        <bs.ListGroup/>
+        <bs.Button href="/#/add_target">Add Target</bs.Button>
+      </bs.Panel>
+    </bs.Col>
+  </bs.Row>
+</bs.Grid>

@@ -1,0 +1,21 @@
+<div>
+  <bs.Navbar bool:fluid="true" bool:collapseOnSelect="true">
+    <bs.Navbar.Header>
+      <bs.Navbar.Brand>
+        <a href="#" className="navbar-brand">Snitch</a>
+      </bs.Navbar.Brand>
+    </bs.Navbar.Header>
+    <bs.Navbar.Collapse>
+      <bs.Nav>
+      </bs.Nav>
+    </bs.Navbar.Collapse>
+  </bs.Navbar>
+  <bs.Grid bool:fluid="true">
+    <bs.Row>
+      <bs.Col int:xs="12">
+        <div id="content" className="container">
+        </div>
+      </bs.Col>
+    </bs.Row>
+  </bs.Grid>
+</div>
