@@ -1,9 +1,9 @@
 <bs.Grid bool:fluid="true">
   <bs.Row>
     <bs.Col int:md="10" int:mdOffset="1">
-      <bs.Panel header="Targets" id="targets">
+      <bs.Panel header="Targets" >
         <bs.Well>No Targets</bs.Well>
-        <bs.ListGroup/>
+        <bs.ListGroup id="targets"/>
         <bs.Button href="/#/add_target">Add Target</bs.Button>
       </bs.Panel>
     </bs.Col>

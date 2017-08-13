@@ -11,7 +11,8 @@ tx(function(w) {
   if (!w.Exists(dbpath("targets"))) {
     w.CreateMap(dbpath("targets"))
   }
-  if (!w.Exists(dbpath("targetsOrdered"))) {
-    w.CreateMap(dbpath("targetsOrdered"))
+  if (!w.Exists(dbpath("targetStatus"))) {
+    w.CreateData(dbpath("targetStatus"), JSON.stringify([]))
   }
+
 });

@@ -1,28 +1,31 @@
+var targets = []
+
 function mount() {
 	setTitle("Snitch: Main")
-	listen(dbpath("targets"), function(r) {
-		render();
+	listen(dbpath("targetsOrdered"), function(r) {
+		targets = JSON.parse(r.Data(dbpath()))
+		render()
 	});
 }
 
 function onUserEvent(evt) {
-	if (evt.ElementID === "counter") {
-		tx(function(w) {
-			var counter = JSON.parse(w.Data(dbpath("counter")))
-			counter++
-			w.CreateData(dbpath("counter"), JSON.stringify(counter))
-		});
-	}
+
 }
+
 
 function unmount() {
 
 }
 
 function render() {
-	var dm = indexDisplay.DeepCopy();
-	// console.Println("Counter", dm)
-	// dm.SetElementText("counter", "Counter: "+counter)
+	var dm = indexDisplay.DeepCopy()
+	// console.log("read targets",targets)
+
+	for (var i = 0; i<targets.length; i++) {
+		var it = indexTarget.DeepCopy()
+		it.SetElementText("item", targets[i])
+		dm.AppendChild("targets", it)
+	}
 	updateScreen(withNavigation(dm));
 }
 

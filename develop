@@ -1,0 +1,3 @@
+#!/bin/sh
+# exec gin --all -i -x db -x gin-bin --path js --path js/screens --path js/common --path . --build .
+fresh -c runner.conf
