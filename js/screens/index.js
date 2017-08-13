@@ -2,7 +2,7 @@ var targets = []
 
 function mount() {
 	setTitle("Snitch: Main")
-	listen(dbpath("targetsOrdered"), function(r) {
+	listen(dbpath("status"), function(r) {
 		targets = JSON.parse(r.Data(dbpath()))
 		render()
 	});
@@ -17,13 +17,24 @@ function unmount() {
 
 }
 
+function statusStyle(status) {
+	switch (status) {
+		case "unknown":
+			return "warning"
+	}
+
+}
+
 function render() {
 	var dm = indexDisplay.DeepCopy()
 	// console.log("read targets",targets)
 
 	for (var i = 0; i<targets.length; i++) {
 		var it = indexTarget.DeepCopy()
-		it.SetElementText("item", targets[i])
+		var target = targets[i]
+		it.SetElementAttribute("item","bsStyle",statusStyle(target.status))
+		it.SetElementAttribute("item","href","#/targets/"+target.id)
+		it.SetElementText("item", target.name)
 		dm.AppendChild("targets", it)
 	}
 	updateScreen(withNavigation(dm));

@@ -7,7 +7,7 @@ function addTarget(name, image, command) {
     w.CreateMap(dbpath("targets", targetUUID))
 
     w.CreateData(
-      dbpath("targets", targetUUID,"config"),
+      dbpath("targets", targetUUID, "config"),
       JSON.stringify(
         {
           name: name,
@@ -17,19 +17,23 @@ function addTarget(name, image, command) {
       )
     )
 
+    var lastUpdate = new Date()
+
     w.CreateData(
       dbpath("targets", targetUUID,"status"),
       JSON.stringify(
         {
-          lastUpdate: newDate(),
+          lastUpdate: lastUpdate,
           status: "unknown",
         }
       )
     )
 
     w.CreateArray(dbpath("targets", targetUUID, "log"))
-    var targets = JSON.parse(w.Data(dbpath("targetsOrdered")))
-    targets.push(targetUUID)
-    w.CreateData(dbpath("targetsOrdered"), JSON.stringify(targets))
+
+
+    var targets = JSON.parse(w.Data(dbpath("status")))
+    targets.push({name:name, id: targetUUID, status: "unknown", lastUpdate: lastUpdate})
+    w.CreateData(dbpath("status"), JSON.stringify(targets))
   })
 }
