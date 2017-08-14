@@ -1,0 +1,13 @@
+<bs.Grid bool:fluid="true">
+  <!-- <bs.Row>
+    <bs.Col int:md="6" int:mdOffset="1">
+      <bs.PageHeader>Add Target</bs.PageHeader>
+    </bs.Col>
+  </bs.Row> -->
+  <bs.Row>
+    <bs.Col int:md="6" int:mdOffset="1">
+      <bs.Panel id="panel">
+      </bs.Panel>
+  </bs.Col>
+</bs.Row>
+</bs.Grid>
