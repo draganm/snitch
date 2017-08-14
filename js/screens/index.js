@@ -29,6 +29,11 @@ function render() {
 	var dm = indexDisplay.DeepCopy()
 	// console.log("read targets",targets)
 
+
+	if (targets.length > 0) {
+		dm.DeleteChild("noTargets")
+	}
+
 	for (var i = 0; i<targets.length; i++) {
 		var it = indexTarget.DeepCopy()
 		var target = targets[i]
