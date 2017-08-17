@@ -16,6 +16,10 @@
               <td>Command</td>
               <td id="command">a</td>
             </tr>
+            <tr>
+              <td>Interval</td>
+              <td id="interval">a</td>
+            </tr>
           </tbody>
         </bs.Table>
         <bs.Button id="deleteButton" bsStyle="danger" reportEvents="click:PD">Delete</bs.Button>

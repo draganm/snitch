@@ -1,11 +1,12 @@
 var name = ""
 var image = ""
 var command = ""
+var interval = ""
 
 var nameValid = false;
 var imageValid = false;
 var commandValid = false;
-
+var intervalValid = false;
 
 var submitEnabled = false
 
@@ -15,12 +16,14 @@ function mount() {
   nameValid = isNameValid()
   imageValid = isImageValid()
   commandValid = isCommandValid()
+  intervalValid = isIntervalValid()
   submitEnabled = canSubmit()
+
 }
 
 
 function canSubmit() {
-  return isNameValid() && isImageValid() && isCommandValid()
+  return isNameValid() && isImageValid() && isCommandValid() && isIntervalValid()
 }
 
 function isNameValid() {
@@ -33,6 +36,10 @@ function isImageValid() {
 
 function isCommandValid() {
   return command !== ""
+}
+
+function isIntervalValid() {
+  return !!parseInt(interval)
 }
 
 function onUserEvent(evt) {
@@ -59,7 +66,14 @@ function onUserEvent(evt) {
           render()
         }
         break
-      default:
+        case "interval":
+          interval = evt.Value
+          if (intervalValid !== isIntervalValid()) {
+            intervalValid = isIntervalValid()
+            render()
+          }
+          break
+        default:
         console.log("Unknown Change event", JSON.stringify(evt))
     }
     if (submitEnabled !== canSubmit()) {
@@ -69,7 +83,7 @@ function onUserEvent(evt) {
   }
 
   if (evt.Type == "submit") {
-    addTarget(name, image, command)
+    addTarget(name, image, command, interval)
     setLocation("/#/")
   }
 
@@ -86,6 +100,7 @@ function render() {
   dm.SetElementAttribute("nameFormGroup","validationState", nameValid ? "success" : "error")
   dm.SetElementAttribute("imageFormGroup","validationState", imageValid ? "success" : "error")
   dm.SetElementAttribute("commandFormGroup","validationState", commandValid ? "success" : "error")
+  dm.SetElementAttribute("intervalFormGroup","validationState", intervalValid ? "success" : "error")
 	updateScreen(withNavigation(dm));
 }
 

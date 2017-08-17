@@ -1,4 +1,4 @@
-function addTarget(name, image, command) {
+function addTarget(name, image, command, interval) {
   console.log("done")
   var targetUUID = uuidv4()
   console.log("done")
@@ -13,6 +13,7 @@ function addTarget(name, image, command) {
           name: name,
           image: image,
           command: command,
+          interval: interval,
         }
       )
     )

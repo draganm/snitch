@@ -22,6 +22,11 @@
           <bs.FormControl id="command" reportEvents="change" type="text" placeholder="Command" />
           <bs.HelpBlock>Command to run with the docker image</bs.HelpBlock>
         </bs.FormGroup>
+        <bs.FormGroup id="intervalFormGroup">
+          <bs.ControlLabel>Interval</bs.ControlLabel>
+          <bs.FormControl id="interval" reportEvents="change" type="text" placeholder="Interval" />
+          <bs.HelpBlock>Interval in seconds between runs</bs.HelpBlock>
+        </bs.FormGroup>
         <bs.Button bsStyle="danger" type="submit" bool:disabled="true" id="submitButton">Add Target</bs.Button>
       </form>
   </bs.Col>

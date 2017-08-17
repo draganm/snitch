@@ -38,6 +38,7 @@ function render() {
   dm.SetElementAttribute("panel","header","Target "+config.name+" ("+id+")")
   dm.SetElementText("image", config.image)
   dm.SetElementText("command", config.command)
+  dm.SetElementText("interval", config.interval)
   if (showDeleteConfirm) {
     dm.ReplaceChild("deleteButton", confirmDeleteModal)
   }
