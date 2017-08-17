@@ -17,7 +17,8 @@ function onUserEvent(evt) {
   }
 
   if (evt.ElementID === "deleteConfirmButton") {
-
+    deleteTarget(id)
+    setLocation("/#/")
   }
 
   if (evt.ElementID === "deleteCancelButton" || evt.ElementID == "deleteConfirmModal") {

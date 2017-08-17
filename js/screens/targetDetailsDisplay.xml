@@ -1,9 +1,4 @@
-e<bs.Grid bool:fluid="true">
-  <!-- <bs.Row>
-    <bs.Col int:md="6" int:mdOffset="1">
-      <bs.PageHeader>Add Target</bs.PageHeader>
-    </bs.Col>
-  </bs.Row> -->
+<bs.Grid bool:fluid="true">
   <bs.Row>
     <bs.Col int:md="6" int:mdOffset="1">
       <bs.Panel id="panel">
@@ -23,7 +18,7 @@ e<bs.Grid bool:fluid="true">
             </tr>
           </tbody>
         </bs.Table>
-        <bs.Button id="deleteButton" reportEvents="click:PD">Delete</bs.Button>
+        <bs.Button id="deleteButton" bsStyle="danger" reportEvents="click:PD">Delete</bs.Button>
       </bs.Panel>
   </bs.Col>
 </bs.Row>
