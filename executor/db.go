@@ -26,6 +26,8 @@ type config struct {
 	Interval int    `json:"interval"`
 }
 
+const maxLogLength = 100
+
 func Start(db *immersadb.ImmersaDB) error {
 
 	executors := map[string]*executor{}
@@ -124,19 +126,30 @@ type logEntry struct {
 	Time   time.Time   `json:"time"`
 	Fields interface{} `json:"fields"`
 	Level  string      `json:"level"`
-	// Type   string      `json:"type"`
 }
-
-// func (e *executor) log(level string, fields interface{}) error {
-//
-// })
 
 func (e *executor) log(level string, fields interface{}) error {
 	json.NewEncoder(os.Stdout).Encode(logEntry{Time: time.Now(), Fields: fields, Level: level})
 	return e.db.Transaction(func(ew modifier.EntityWriter) error {
-		return ew.CreateData(dbpath.New("targets", e.id, "log", 0), func(w io.Writer) error {
+		err := ew.CreateData(dbpath.New("targets", e.id, "log", 0), func(w io.Writer) error {
 			return json.NewEncoder(w).Encode(logEntry{Time: time.Now(), Fields: fields, Level: level})
 		})
+		if err != nil {
+			return err
+		}
+		logReader := ew.EntityReaderFor(dbpath.New("targets", e.id, "log"))
+		s := logReader.Size()
+
+		if s <= maxLogLength {
+			return nil
+		}
+
+		err = ew.Delete(dbpath.New("targets", e.id, "log", int(s-1)))
+		if err != nil {
+			return nil
+		}
+
+		return nil
 	})
 }
 
