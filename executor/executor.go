@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"context"
 	"encoding/json"
+	"errors"
 	"fmt"
 	"io"
 	"log"
@@ -107,14 +108,24 @@ type failureMessage struct {
 func (e *executor) start() {
 	go func() {
 		for {
-			e.updateStatus("running")
-			err := e.execute()
+			err := e.updateStatus("running")
 			if err != nil {
-				e.updateStatus("failed")
-				continue
+				log.Println(err)
 			}
-			e.updateStatus("success")
+			err = e.execute()
+			if err != nil {
+				err = e.updateStatus("failed")
+				if err != nil {
+					log.Println(err)
+				}
+			} else {
+				err = e.updateStatus("success")
+				if err != nil {
+					log.Println(err)
+				}
+			}
 			time.Sleep(time.Duration(e.config.Interval) * time.Second)
+
 		}
 
 	}()
@@ -124,11 +135,12 @@ func (e *executor) updateStatus(st string) error {
 	return e.db.Transaction(func(ew modifier.EntityWriter) error {
 		statuses := []*status{}
 		statusPath := dbpath.New("status")
-		err := json.NewDecoder(ew.EntityReaderFor(statusPath).Data()).Decode(statuses)
+		err := json.NewDecoder(ew.EntityReaderFor(statusPath).Data()).Decode(&statuses)
 		if err != nil {
 			return err
 		}
 		for _, s := range statuses {
+			log.Println("ID", s.ID, e.id)
 			if s.ID == e.id {
 				s.Status = st
 			}
@@ -248,7 +260,7 @@ func (e *executor) execute() error {
 			Log:      demux.String(),
 			ExitCode: exitCode,
 		})
-		return err
+		return errors.New("Execution failed")
 	}
 
 	e.log("success", successMessage{

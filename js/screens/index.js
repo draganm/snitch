@@ -21,6 +21,12 @@ function statusStyle(status) {
 	switch (status) {
 		case "unknown":
 			return "warning"
+		case "running":
+			return "info"
+		case "success":
+			return "success"
+		case "failed":
+			return "danger"
 	}
 
 }
