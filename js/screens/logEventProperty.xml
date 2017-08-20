@@ -1,4 +1,4 @@
 <tr>
   <td id="name">Image</td>
-  <td id="value">a</td>
+  <td><pre id="value"></pre></td>
 </tr>
