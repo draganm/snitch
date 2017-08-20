@@ -54,7 +54,9 @@ function render() {
     dm.SetElementText("command", config.command)
     dm.SetElementText("interval", config.interval.toString())
     if (showDeleteConfirm) {
-      dm.ReplaceChild("deleteButton", confirmDeleteModal)
+      var mod = confirmDeleteModal.DeepCopy()
+      mod.SetElementText("targetName", config.name)
+      dm.ReplaceChild("deleteButton", mod)
     }
     for (var i=0; i<log.length; i++) {
       var le = logEvent.DeepCopy()
