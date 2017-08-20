@@ -1,6 +1,6 @@
 <bs.Grid bool:fluid="true">
   <bs.Row>
-    <bs.Col int:md="6" int:mdOffset="1">
+    <bs.Col int:md="8" int:mdOffset="0">
       <bs.Panel id="panel">
         <bs.Table bool:responsive="false" bool:condensed="true" bool:bordered="true">
           <thead>
@@ -24,6 +24,13 @@
         </bs.Table>
         <bs.Button id="deleteButton" bsStyle="danger" reportEvents="click:PD">Delete</bs.Button>
       </bs.Panel>
+
   </bs.Col>
 </bs.Row>
+<bs.Row>
+  <bs.Col >
+    <bs.Panel header="Event log" id="log"/>
+  </bs.Col>
+</bs.Row>
+
 </bs.Grid>

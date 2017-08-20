@@ -1,0 +1,5 @@
+<bs.Panel id="title" header="ABC" >
+  <bs.Table bool:responsive="false" bool:condensed="true" bool:bordered="false" bool:striped="true">
+    <tbody id="properties"/>
+  </bs.Table>
+</bs.Panel>

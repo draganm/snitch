@@ -5,6 +5,7 @@ import (
 	"os"
 
 	"github.com/draganm/reciprocus"
+	"github.com/draganm/snitch/executor"
 )
 
 func main() {
@@ -16,6 +17,6 @@ func main() {
 	if port == "" {
 		port = "8000"
 	}
-
+	executor.Start(r.DB)
 	r.Serve(fmt.Sprintf(":%s", port))
 }

@@ -12,6 +12,11 @@
   </bs.Navbar>
   <bs.Grid bool:fluid="true">
     <bs.Row>
+      <bs.Col>
+        <div id="alerts" />        
+      </bs.Col>
+    </bs.Row>
+    <bs.Row>
       <bs.Col int:xs="12">
         <div id="content" className="container">
         </div>

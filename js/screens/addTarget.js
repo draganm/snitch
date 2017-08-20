@@ -83,7 +83,7 @@ function onUserEvent(evt) {
   }
 
   if (evt.Type == "submit") {
-    addTarget(name, image, command, interval)
+    addTarget(name, image, command, parseInt(interval))
     setLocation("/#/")
   }
 
