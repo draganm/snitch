@@ -27,7 +27,7 @@ function canSubmit() {
 }
 
 function isNameValid() {
-  return !!name.match('^[a-zA-Z0-9]+$')
+  return !!name.match('^.+$')
 }
 
 function isImageValid() {

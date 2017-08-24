@@ -1,4 +1,4 @@
-<bs.Grid bool:fluid="true">
+<bs.Grid bool:fluid="true" id="mainGrid">
   <bs.Row>
     <bs.Col int:md="8" int:mdOffset="0">
       <bs.Panel id="panel">
@@ -25,11 +25,6 @@
         <bs.Button id="deleteButton" bsStyle="danger" reportEvents="click:PD">Delete</bs.Button>
       </bs.Panel>
 
-  </bs.Col>
-</bs.Row>
-<bs.Row>
-  <bs.Col >
-    <bs.Panel header="Event log" id="log"/>
   </bs.Col>
 </bs.Row>
 

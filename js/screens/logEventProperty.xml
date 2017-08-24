@@ -1,4 +1,6 @@
-<tr>
-  <td id="name">Image</td>
-  <td><pre id="value"></pre></td>
-</tr>
+<bs.Row>
+  <bs.Col int:xs="2" id="name" />
+  <bs.Col int:xs="10">
+    <pre id="value" />
+  </bs.Col>
+</bs.Row>

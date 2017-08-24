@@ -44,6 +44,21 @@ function unmount() {
 
 }
 
+function levelStyle(status) {
+	switch (status) {
+		case "info":
+			return "info"
+    case "error":
+			return "danger"
+		case "failure":
+			return "danger"
+		case "success":
+			return "success"
+    default:
+      return "default"
+	}
+
+}
 
 function render() {
 	var dm = targetDetailsDisplay.DeepCopy()
@@ -58,18 +73,23 @@ function render() {
       mod.SetElementText("targetName", config.name)
       dm.ReplaceChild("deleteButton", mod)
     }
+
     for (var i=0; i<log.length; i++) {
       var le = logEvent.DeepCopy()
       var d = new Date(log[i].time)
-      le.SetElementAttribute("title", "header", d.toString())
+      le.SetElementAttribute("rowPanel", "header", d.toString())
+      le.SetElementAttribute("rowPanel","bsStyle",levelStyle(log[i].level))
       for (var key in log[i].fields) {
         var lep = logEventProperty.DeepCopy()
         lep.SetElementText("name", key)
         lep.SetElementText("value", log[i].fields[key])
-        le.AppendChild("properties",lep)
+        le.AppendChild("rowPanel",lep)
       }
-      dm.AppendChild("log", le)
+      dm.AppendChild("mainGrid", le)
     }
+
+
+
     updateScreen(withNavigation(dm));
   } else {
     updateScreen(withNavigation(parseDisplayModel("<span/>")))
