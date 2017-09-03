@@ -1,4 +1,6 @@
-package ui
+package index
+
+import . "github.com/draganm/snitch/ui/navigation"
 
 import (
 	"log"
@@ -60,7 +62,7 @@ func init() {
 			}
 
 			ctx.ScreenContext.UpdateScreen(&reactor.DisplayUpdate{
-				Model: withNavigation(d, nil),
+				Model: WithNavigation(d, nil),
 			})
 		}
 

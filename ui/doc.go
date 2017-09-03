@@ -1,3 +1,3 @@
 package ui
 
-//go:generate kickback-generator -p ui
+import _ "github.com/draganm/snitch/ui/index"

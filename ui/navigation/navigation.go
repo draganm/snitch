@@ -1,4 +1,4 @@
-package ui
+package navigation
 
 import reactor "github.com/draganm/go-reactor"
 
@@ -7,7 +7,7 @@ type alertLine struct {
 	typ  string
 }
 
-func withNavigation(dm *reactor.DisplayModel, alerts []alertLine) *reactor.DisplayModel {
+func WithNavigation(dm *reactor.DisplayModel, alerts []alertLine) *reactor.DisplayModel {
 	var navCopy = navigation.DeepCopy()
 
 	for _, a := range alerts {
