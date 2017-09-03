@@ -1,19 +1,21 @@
 package navigation
 
+//go:generate kickback-generator -p navigation
+
 import reactor "github.com/draganm/go-reactor"
 
-type alertLine struct {
-	text string
-	typ  string
+type AlertLine struct {
+	Text string
+	Typ  string
 }
 
-func WithNavigation(dm *reactor.DisplayModel, alerts []alertLine) *reactor.DisplayModel {
+func WithNavigation(dm *reactor.DisplayModel, alerts []AlertLine) *reactor.DisplayModel {
 	var navCopy = navigation.DeepCopy()
 
 	for _, a := range alerts {
 		alertElement := alert.DeepCopy()
-		alertElement.SetElementText("text", a.text)
-		alertElement.SetElementAttribute("alert", "bsStyle", a.typ)
+		alertElement.SetElementText("text", a.Text)
+		alertElement.SetElementAttribute("alert", "bsStyle", a.Typ)
 	}
 
 	navCopy.ReplaceChild("content", dm)

@@ -1,6 +1,6 @@
 package index
 
-import . "github.com/draganm/snitch/ui/navigation"
+//go:generate kickback-generator -p index
 
 import (
 	"log"
@@ -10,6 +10,7 @@ import (
 	"github.com/draganm/immersadb/modifier"
 	"github.com/draganm/kickback"
 	"github.com/draganm/snitch/executor"
+	. "github.com/draganm/snitch/ui/navigation"
 )
 
 func init() {

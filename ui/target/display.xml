@@ -1,0 +1,31 @@
+<bs.Grid bool:fluid="true" id="mainGrid">
+  <bs.Row>
+    <bs.Col int:md="8" int:mdOffset="0">
+      <bs.Panel id="panel">
+        <bs.Table bool:responsive="false" bool:condensed="true" bool:bordered="true">
+          <thead>
+            <th>Name</th>
+            <th>Value</th>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Image</td>
+              <td id="image">a</td>
+            </tr>
+            <tr>
+              <td>Command</td>
+              <td id="command">a</td>
+            </tr>
+            <tr>
+              <td>Interval</td>
+              <td id="interval">a</td>
+            </tr>
+          </tbody>
+        </bs.Table>
+        <bs.Button id="deleteButton" bsStyle="danger" reportEvents="click:PD">Delete</bs.Button>
+      </bs.Panel>
+
+  </bs.Col>
+</bs.Row>
+
+</bs.Grid>
