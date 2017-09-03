@@ -133,7 +133,7 @@ func (e *executor) start() {
 
 func (e *executor) updateStatus(st string) error {
 	return e.db.Transaction(func(ew modifier.EntityWriter) error {
-		statuses := []*status{}
+		statuses := []*Status{}
 		statusPath := dbpath.New("status")
 		err := json.NewDecoder(ew.EntityReaderFor(statusPath).Data()).Decode(&statuses)
 		if err != nil {
@@ -304,7 +304,7 @@ func (e *executor) log(level string, fields interface{}) error {
 
 func (e *executor) update(s string) error {
 	return e.db.Transaction(func(w modifier.EntityWriter) error {
-		statuses := []*status{}
+		statuses := []*Status{}
 		err := json.NewDecoder(w.EntityReaderFor(dbpath.New("status")).Data()).Decode(statuses)
 		if err != nil {
 			return err

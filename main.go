@@ -4,19 +4,30 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/draganm/reciprocus"
+	"github.com/draganm/immersadb"
+	"github.com/draganm/kickback"
 	"github.com/draganm/snitch/executor"
+
+	_ "github.com/draganm/snitch/ui"
 )
 
 func main() {
-	r, err := reciprocus.New("js", "db", 10*1024*1024)
+
+	db, err := immersadb.New("db", 10*1024*1024)
 	if err != nil {
 		panic(err)
 	}
+
 	port := os.Getenv("PORT")
 	if port == "" {
 		port = "8000"
 	}
-	executor.Start(r.DB)
-	r.Serve(fmt.Sprintf(":%s", port))
+
+	err = executor.Start(db)
+	if err != nil {
+		panic(err)
+	}
+
+	kickback.Run(fmt.Sprintf(":%s", port), db, nil)
+
 }
