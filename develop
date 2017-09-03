@@ -1,2 +1,2 @@
 #!/bin/sh
-reflex  --only-files=true -r '\.(go)|(xml)$' -R  'ui/kickback-generated.go$' -v -s -- sh -c 'go generate ./ui && go run main.go'
+reflex  --only-files=true -r '\.(go)|(xml)$' -R  'kickback-generated.go$' -v -s -- sh -c 'go generate ./ui/... && go run main.go'
