@@ -33,19 +33,6 @@ func init() {
 
 		status := executor.StatusList{}
 
-		ctx.Listen(dbpath.New("status"), func(er modifier.EntityReader) {
-			if er == nil {
-				status = nil
-				return
-			}
-			err := (&status).Read(er)
-			if err != nil {
-				// TODO use alert
-				log.Println(err)
-			}
-			log.Println("status", status)
-		})
-
 		var render = func() {
 
 			d := indexDisplay.DeepCopy()
@@ -67,7 +54,18 @@ func init() {
 			})
 		}
 
-		render()
+		ctx.Listen(dbpath.New("status"), func(er modifier.EntityReader) {
+			if er == nil {
+				status = nil
+				return
+			}
+			err := (&status).Read(er)
+			if err != nil {
+				// TODO use alert
+				log.Println(err)
+			}
+			render()
+		})
 
 	})
 }
