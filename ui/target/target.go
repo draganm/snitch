@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"log"
 
+	"github.com/davecgh/go-spew/spew"
 	reactor "github.com/draganm/go-reactor"
 	"github.com/draganm/immersadb/dbpath"
 	"github.com/draganm/immersadb/modifier"
@@ -24,6 +25,9 @@ func init() {
 		showDeleteConfirm := false
 
 		var render = func() {
+
+			spew.Dump(config)
+
 			dm := display.DeepCopy()
 			dm.SetElementAttribute("panel", "header", fmt.Sprintf("Target %s (%s)", config.Name, id))
 			dm.SetElementText("image", config.Image)

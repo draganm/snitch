@@ -16,6 +16,7 @@ func WithNavigation(dm *reactor.DisplayModel, alerts []AlertLine) *reactor.Displ
 		alertElement := alert.DeepCopy()
 		alertElement.SetElementText("text", a.Text)
 		alertElement.SetElementAttribute("alert", "bsStyle", a.Typ)
+		navCopy.AppendChild("alerts", alertElement)
 	}
 
 	navCopy.ReplaceChild("content", dm)

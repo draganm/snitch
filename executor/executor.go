@@ -33,6 +33,10 @@ func (c *Config) Read(r modifier.EntityReader) error {
 	return json.NewDecoder(r.Data()).Decode(c)
 }
 
+func (c *Config) Write(w io.Writer) error {
+	return json.NewEncoder(w).Encode(c)
+}
+
 const maxLogLength = 100
 
 func Start(db *immersadb.ImmersaDB) error {
