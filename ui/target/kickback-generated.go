@@ -31,3 +31,12 @@ var display = &reactor.DisplayModel{ID: "mainGrid", Element: "bs.Grid", Attribut
 }{}, Children: []*reactor.DisplayModel{&reactor.DisplayModel{Text: "Interval"}}}, &reactor.DisplayModel{ID: "interval", Element: "td", Attributes: map[string]interface {
 }{}, Children: []*reactor.DisplayModel{&reactor.DisplayModel{Text: "a"}}}}}}}}}, &reactor.DisplayModel{ID: "deleteButton", Element: "bs.Button", Attributes: map[string]interface {
 }{"bsStyle": "danger"}, ReportEvents: []reactor.ReportEvent{reactor.ReportEvent{Name: "click", PreventDefault: true}}, Children: []*reactor.DisplayModel{&reactor.DisplayModel{Text: "Delete"}}}}}}}}}}}
+var logEvent = &reactor.DisplayModel{Element: "bs.Row", Attributes: map[string]interface {
+}{}, Children: []*reactor.DisplayModel{&reactor.DisplayModel{Element: "bs.Col", Attributes: map[string]interface {
+}{}, Children: []*reactor.DisplayModel{&reactor.DisplayModel{ID: "rowPanel", Element: "bs.Panel", Attributes: map[string]interface {
+}{}}}}}}
+var logEventProperty = &reactor.DisplayModel{Element: "bs.Row", Attributes: map[string]interface {
+}{}, Children: []*reactor.DisplayModel{&reactor.DisplayModel{ID: "name", Element: "bs.Col", Attributes: map[string]interface {
+}{"xs": 2}}, &reactor.DisplayModel{Element: "bs.Col", Attributes: map[string]interface {
+}{"xs": 10}, Children: []*reactor.DisplayModel{&reactor.DisplayModel{ID: "value", Element: "pre", Attributes: map[string]interface {
+}{}}}}}}
