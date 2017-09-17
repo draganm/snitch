@@ -22,14 +22,19 @@ import (
 	shellwords "github.com/mattn/go-shellwords"
 )
 
-type startedLog struct {
-}
-
-type config struct {
+type Config struct {
 	Name     string `json:"name"`
 	Image    string `json:"image"`
 	Command  string `json:"command"`
 	Interval int    `json:"interval"`
+}
+
+func (c *Config) Read(r modifier.EntityReader) error {
+	return json.NewDecoder(r.Data()).Decode(c)
+}
+
+func (c *Config) Write(w io.Writer) error {
+	return json.NewEncoder(w).Encode(c)
 }
 
 const maxLogLength = 100
@@ -44,7 +49,7 @@ func Start(db *immersadb.ImmersaDB) error {
 	db.AddListenerFunc(dbpath.New("targets"), func(r modifier.EntityReader) {
 		err := r.ForEachMapEntry(func(key string, reader modifier.EntityReader) error {
 
-			c := &config{}
+			c := &Config{}
 			e := json.NewDecoder(reader.EntityReaderFor(dbpath.New("config")).Data()).Decode(c)
 			if e != nil {
 				log.Println(e)
@@ -80,7 +85,7 @@ func Start(db *immersadb.ImmersaDB) error {
 
 type executor struct {
 	dc     *client.Client
-	config *config
+	config *Config
 	db     *immersadb.ImmersaDB
 	id     string
 }
@@ -133,7 +138,7 @@ func (e *executor) start() {
 
 func (e *executor) updateStatus(st string) error {
 	return e.db.Transaction(func(ew modifier.EntityWriter) error {
-		statuses := []*status{}
+		statuses := []*Status{}
 		statusPath := dbpath.New("status")
 		err := json.NewDecoder(ew.EntityReaderFor(statusPath).Data()).Decode(&statuses)
 		if err != nil {
@@ -304,7 +309,7 @@ func (e *executor) log(level string, fields interface{}) error {
 
 func (e *executor) update(s string) error {
 	return e.db.Transaction(func(w modifier.EntityWriter) error {
-		statuses := []*status{}
+		statuses := []*Status{}
 		err := json.NewDecoder(w.EntityReaderFor(dbpath.New("status")).Data()).Decode(statuses)
 		if err != nil {
 			return err
