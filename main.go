@@ -28,10 +28,10 @@ func main() {
 	app := &cli.App{
 		Flags: []cli.Flag{
 			&cli.StringFlag{
-				Name:        "port",
-				Aliases:     []string{"p"},
-				EnvVars:     []string{"PORT"},
-				DefaultText: "8000",
+				Name:    "port",
+				Aliases: []string{"p"},
+				EnvVars: []string{"PORT"},
+				Value:   "8000",
 			},
 			&cli.BoolFlag{
 				Name:    "oauth2",
@@ -73,7 +73,24 @@ func main() {
 				return err
 			}
 
-			err = executor.Start(db)
+			err = db.Transaction(func(ew modifier.EntityWriter) error {
+				if !ew.Exists(dbpath.New("targets")) {
+					err2 := ew.CreateMap(dbpath.New("targets"))
+					if err2 != nil {
+						return err2
+					}
+				}
+
+				if !ew.Exists(dbpath.New("status")) {
+					status := executor.StatusList{}
+					err2 := ew.CreateData(dbpath.New("status"), (&status).Write)
+					if err2 != nil {
+						return err2
+					}
+				}
+				return nil
+			})
+
 			if err != nil {
 				return err
 			}
@@ -131,6 +148,11 @@ func main() {
 					),
 					oauth2.LoginRequired(),
 				}
+			}
+
+			err = executor.Start(db)
+			if err != nil {
+				return err
 			}
 
 			kickback.Run(
