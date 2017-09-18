@@ -23,7 +23,7 @@ func style(valid bool) string {
 
 var nameRegexp = regexp.MustCompile(`^.+$`)
 
-var imageRegexp = regexp.MustCompile(`^[a-zA-Z0-9./_:%]+$`)
+var imageRegexp = regexp.MustCompile(`^[a-zA-Z0-9./_:%\-]+$`)
 
 var commandRegexp = regexp.MustCompile(`^.+$`)
 
