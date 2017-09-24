@@ -95,6 +95,11 @@ func main() {
 				return err
 			}
 
+			err = db.GC()
+			if err != nil {
+				return err
+			}
+
 			handlers := []negroni.Handler{}
 
 			if c.Bool("oauth2") {
