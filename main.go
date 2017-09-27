@@ -6,8 +6,11 @@ import (
 	"io"
 	"io/ioutil"
 	"log"
+	"net/http"
 	"os"
 	"strings"
+
+	_ "net/http/pprof"
 
 	"github.com/draganm/immersadb"
 	"github.com/draganm/immersadb/dbpath"
@@ -24,6 +27,10 @@ import (
 )
 
 func main() {
+
+	go func() {
+		http.ListenAndServe("0.0.0.0:6060", nil)
+	}()
 
 	app := &cli.App{
 		Flags: []cli.Flag{
