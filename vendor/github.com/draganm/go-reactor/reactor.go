@@ -3,16 +3,12 @@ package reactor
 import (
 	"log"
 	"net/http"
-	"runtime"
-	"runtime/debug"
 	"strings"
 	"sync"
 	"time"
 
-	"github.com/julienschmidt/httprouter"
+	uuid "github.com/satori/go.uuid"
 	"github.com/urfave/negroni"
-
-	_ "net/http/pprof"
 
 	"github.com/draganm/go-reactor/path"
 	"github.com/draganm/go-reactor/public"
@@ -62,16 +58,49 @@ func (r *Reactor) findScreenFactoryForPath(path string) (ScreenFactory, map[stri
 	return r.notFoundScreenFactory, nil
 }
 
-func (r *Reactor) Serve(bind string) {
-	handlers := append(r.handlers, negroni.NewStatic(public.AssetFS()))
-	n := negroni.New(handlers...)
+func (re *Reactor) ServeHTTP(rw http.ResponseWriter, r *http.Request, next http.HandlerFunc) {
+	if r.Method == "GET" && r.URL.Path == "/ws" {
 
-	router := httprouter.New()
-	router.HandlerFunc("GET", "/ws", newReactorHandler(func(uc chan *DisplayUpdate, ue chan *UserEvent, req *http.Request, id string) http.Header {
+		displayChan := make(chan *DisplayUpdate)
+		eventChan := make(chan *UserEvent)
+
+		connectionID := uuid.NewV4().String()
+
+		header := http.Header{}
+
+		c := http.Cookie{Name: "BR", Value: "true"}
+		header.Add("Set-Cookie", c.String())
+
+		conn, err := upgrader.Upgrade(rw, r, header)
+		if err != nil {
+			panic(err)
+		}
 
 		go func() {
-			log.Println("Screen loop start")
-			defer log.Println("Screen loop exit")
+			currentState := &DisplayUpdate{}
+			for displayUpdate := range displayChan {
+				if !displayUpdate.DeepEqual(currentState) {
+					err := conn.WriteJSON(displayUpdate)
+					if err != nil {
+						break
+					}
+					currentState = displayUpdate
+				}
+			}
+		}()
+
+		defer func() {
+			close(eventChan)
+			close(displayChan)
+		}()
+
+		go func() {
+
+			defer func() {
+				if r := recover(); r != nil {
+					log.Println("Recovered in screen loop", r)
+				}
+			}()
 
 			path := "/"
 
@@ -82,11 +111,11 @@ func (r *Reactor) Serve(bind string) {
 				}
 				// TODO lock etc.
 
-				screenFactory, params := r.findScreenFactoryForPath(path)
-				updater := NewrateLimitedScreenUpdater(200*time.Millisecond, func(upd *DisplayUpdate) { uc <- upd })
+				screenFactory, params := re.findScreenFactoryForPath(path)
+				updater := NewrateLimitedScreenUpdater(200*time.Millisecond, func(upd *DisplayUpdate) { displayChan <- upd })
 				ctx := ScreenContext{
 					Path:         path,
-					ConnectionID: id,
+					ConnectionID: connectionID,
 					Params:       params,
 					UpdateScreen: newRemoveDuplicatesScreenUpdater(updater.update),
 				}
@@ -97,7 +126,7 @@ func (r *Reactor) Serve(bind string) {
 
 					currentScreen.Mount()
 
-					for evt := range ue {
+					for evt := range eventChan {
 						if evt.Type == "popstate" {
 							newPath := strings.TrimPrefix(evt.Value, "#")
 							if newPath != path {
@@ -111,28 +140,32 @@ func (r *Reactor) Serve(bind string) {
 					}
 					currentScreen.Unmount()
 					updater.close()
-					close(uc)
+					close(displayChan)
 					currentScreen = nil
-					runtime.GC()
-					debug.FreeOSMemory()
 					return
 				}
 
 			}
 		}()
 
-		header := http.Header{}
+		for {
+			evt := &UserEvent{}
+			err := conn.ReadJSON(evt)
+			if err != nil {
+				return
+			}
 
-		c := http.Cookie{Name: "BR", Value: "true"}
-		header.Add("Set-Cookie", c.String())
+			eventChan <- evt
 
-		return header
-	}))
-	n.UseHandler(router)
+		}
 
-	go func() {
-		http.ListenAndServe("0.0.0.0:6060", nil)
-	}()
+	}
+	next.ServeHTTP(rw, r)
+}
+
+func (r *Reactor) Serve(bind string) {
+	handlers := append(r.handlers, negroni.NewStatic(public.AssetFS()))
+	n := negroni.New(append(handlers, r)...)
 
 	n.Run(bind)
 }

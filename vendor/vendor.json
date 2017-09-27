@@ -233,22 +233,22 @@
 			"revisionTime": "2017-08-23T17:48:40Z"
 		},
 		{
-			"checksumSHA1": "+8lMct3iLjXOUDWDIagEDqmahxg=",
+			"checksumSHA1": "k407IVRARRV7NHXlPXj/HPAqdIU=",
 			"path": "github.com/draganm/go-reactor",
-			"revision": "f4d0b3df55d212119ca6f30578343f58d9f47f80",
-			"revisionTime": "2017-08-27T02:39:53Z"
+			"revision": "340b93264f2cb064766771ca5555affc975a6ba4",
+			"revisionTime": "2017-09-27T22:39:01Z"
 		},
 		{
 			"checksumSHA1": "CRuZac1VdjzDt19EBZzx/0ewUHE=",
 			"path": "github.com/draganm/go-reactor/path",
-			"revision": "f4d0b3df55d212119ca6f30578343f58d9f47f80",
-			"revisionTime": "2017-08-27T02:39:53Z"
+			"revision": "340b93264f2cb064766771ca5555affc975a6ba4",
+			"revisionTime": "2017-09-27T22:39:01Z"
 		},
 		{
 			"checksumSHA1": "waabQ7rQLFhGtqcyQ7Zadwnb0qM=",
 			"path": "github.com/draganm/go-reactor/public",
-			"revision": "f4d0b3df55d212119ca6f30578343f58d9f47f80",
-			"revisionTime": "2017-08-27T02:39:53Z"
+			"revision": "340b93264f2cb064766771ca5555affc975a6ba4",
+			"revisionTime": "2017-09-27T22:39:01Z"
 		},
 		{
 			"checksumSHA1": "8gOwKHMJaxK/ZlJXvW+Uh+4LHvI=",
@@ -358,12 +358,6 @@
 			"path": "github.com/gorilla/websocket",
 			"revision": "a69d9f6de432e2c6b296a947d8a5ee88f68522cf",
 			"revisionTime": "2017-07-18T20:23:41Z"
-		},
-		{
-			"checksumSHA1": "gKyBj05YkfuLFruAyPZ4KV9nFp8=",
-			"path": "github.com/julienschmidt/httprouter",
-			"revision": "975b5c4c7c21c0e3d2764200bf2aa8e34657ae6e",
-			"revisionTime": "2017-04-30T22:20:11Z"
 		},
 		{
 			"checksumSHA1": "pUXq8lowSC+hh+JB2MQDOoL7u4I=",
