@@ -3,10 +3,10 @@ WORKDIR /go/src/github.com/draganm/snitch
 COPY . .
 RUN CGO_ENABLED=0 GOOS=linux go install -a -installsuffix cgo .
 
-FROM docker:17.06.2-ce-dind
+FROM alpine:3.6
+RUN apk --no-cache add ca-certificates
 WORKDIR /
 COPY --from=builder /go/bin/snitch /
 RUN mkdir db
-ENTRYPOINT ["/bin/sh","-c"]
-CMD ["(nohup dockerd &); exec /snitch"]
+CMD ["/snitch"]
 EXPOSE 8000
