@@ -251,52 +251,52 @@
 			"revisionTime": "2017-09-27T22:39:01Z"
 		},
 		{
-			"checksumSHA1": "8gOwKHMJaxK/ZlJXvW+Uh+4LHvI=",
+			"checksumSHA1": "jsuge3YW45NMzlQ7D6GOM327EyU=",
 			"path": "github.com/draganm/immersadb",
-			"revision": "4fb7526a3830898fa970cf66d7e69f0c7e4ef3b9",
-			"revisionTime": "2017-08-20T01:30:28Z"
+			"revision": "2258b94212945c1cbd9d0e197acf77cda95976c9",
+			"revisionTime": "2017-10-14T23:42:14Z"
 		},
 		{
 			"checksumSHA1": "RU2QyucwLmesvtSGT0qsbEpWxds=",
 			"path": "github.com/draganm/immersadb/chunk",
-			"revision": "4fb7526a3830898fa970cf66d7e69f0c7e4ef3b9",
-			"revisionTime": "2017-08-20T01:30:28Z"
+			"revision": "2258b94212945c1cbd9d0e197acf77cda95976c9",
+			"revisionTime": "2017-10-14T23:42:14Z"
 		},
 		{
 			"checksumSHA1": "FfM8TacqJ/ChBVkyw3kophpp9yA=",
 			"path": "github.com/draganm/immersadb/dbpath",
-			"revision": "4fb7526a3830898fa970cf66d7e69f0c7e4ef3b9",
-			"revisionTime": "2017-08-20T01:30:28Z"
+			"revision": "2258b94212945c1cbd9d0e197acf77cda95976c9",
+			"revisionTime": "2017-10-14T23:42:14Z"
 		},
 		{
 			"checksumSHA1": "SaUX99b0K1pL/vOSu20Dy7Tq9Ww=",
 			"path": "github.com/draganm/immersadb/gc",
-			"revision": "4fb7526a3830898fa970cf66d7e69f0c7e4ef3b9",
-			"revisionTime": "2017-08-20T01:30:28Z"
+			"revision": "2258b94212945c1cbd9d0e197acf77cda95976c9",
+			"revisionTime": "2017-10-14T23:42:14Z"
 		},
 		{
 			"checksumSHA1": "vWJM+/suKCQI/W8KZwstd+v9lw4=",
 			"path": "github.com/draganm/immersadb/graph",
-			"revision": "4fb7526a3830898fa970cf66d7e69f0c7e4ef3b9",
-			"revisionTime": "2017-08-20T01:30:28Z"
+			"revision": "2258b94212945c1cbd9d0e197acf77cda95976c9",
+			"revisionTime": "2017-10-14T23:42:14Z"
 		},
 		{
 			"checksumSHA1": "uKBsnE81TWQ9/24CoVbfEmH9VN0=",
 			"path": "github.com/draganm/immersadb/modifier",
-			"revision": "4fb7526a3830898fa970cf66d7e69f0c7e4ef3b9",
-			"revisionTime": "2017-08-20T01:30:28Z"
+			"revision": "2258b94212945c1cbd9d0e197acf77cda95976c9",
+			"revisionTime": "2017-10-14T23:42:14Z"
 		},
 		{
 			"checksumSHA1": "0H3ekG9I90h/vALFHvtPjqRPbHA=",
 			"path": "github.com/draganm/immersadb/modifier/ttfmap",
-			"revision": "4fb7526a3830898fa970cf66d7e69f0c7e4ef3b9",
-			"revisionTime": "2017-08-20T01:30:28Z"
+			"revision": "2258b94212945c1cbd9d0e197acf77cda95976c9",
+			"revisionTime": "2017-10-14T23:42:14Z"
 		},
 		{
-			"checksumSHA1": "lzqrX9wnItkxCrtANCnHc+do6w8=",
+			"checksumSHA1": "ZX0428nqkciFaxRESxkaiu77Geg=",
 			"path": "github.com/draganm/immersadb/store",
-			"revision": "4fb7526a3830898fa970cf66d7e69f0c7e4ef3b9",
-			"revisionTime": "2017-08-20T01:30:28Z"
+			"revision": "2258b94212945c1cbd9d0e197acf77cda95976c9",
+			"revisionTime": "2017-10-14T23:42:14Z"
 		},
 		{
 			"checksumSHA1": "R+jdM0oAx/esx6y5shhyG2j37yw=",
