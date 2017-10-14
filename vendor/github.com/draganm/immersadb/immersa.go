@@ -61,11 +61,11 @@ func New(path string, segmentSize int) (*ImmersaDB, error) {
 		c := s.Chunk(addr)
 
 		for ; c != nil; addr += uint64(len(c)) {
-			c = s.Chunk(addr)
 			t := chunk.Type(c)
 			if t == chunk.CommitType {
 				lastSeenCommit = addr
 			}
+			c = s.Chunk(addr)
 		}
 
 		if lastSeenCommit == s.NextChunkAddress() {
