@@ -413,6 +413,18 @@
 			"revisionTime": "2017-08-09T18:06:16Z"
 		},
 		{
+			"checksumSHA1": "sMLAqhpbcINLN29Clx30UCfOITo=",
+			"path": "gitlab.netice9.com/dragan/favicon",
+			"revision": "83003959f9d52cfe335863ae118ceace5746867c",
+			"revisionTime": "2017-10-17T21:32:24Z"
+		},
+		{
+			"checksumSHA1": "kxCbfKOIfB9U5QsVfhS65Zojf5A=",
+			"path": "gitlab.netice9.com/dragan/favicon/data",
+			"revision": "83003959f9d52cfe335863ae118ceace5746867c",
+			"revisionTime": "2017-10-17T21:32:24Z"
+		},
+		{
 			"checksumSHA1": "dr5+PfIRzXeN+l1VG+s0lea9qz8=",
 			"path": "golang.org/x/net/context",
 			"revision": "66aacef3dd8a676686c7ae3716979581e8b03c47",

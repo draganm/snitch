@@ -10,6 +10,8 @@ import (
 	"os"
 	"strings"
 
+	"gitlab.netice9.com/dragan/favicon"
+
 	_ "net/http/pprof"
 
 	"github.com/draganm/immersadb"
@@ -147,6 +149,7 @@ func main() {
 				}
 
 				handlers = []negroni.Handler{
+					favicon.NegroniHandler,
 					sessions.Sessions("snitch_session", cookiestore.New(cookiestoreSecret)),
 					oauth2.NewOAuth2Provider(
 						&oauth2.Config{
