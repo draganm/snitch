@@ -51,7 +51,15 @@ var page *agouti.Page
 
 var _ = BeforeEach(func() {
 	var err error
-	page, err = agoutiDriver.NewPage()
+	page, err = agoutiDriver.NewPage(
+		agouti.Desired(agouti.Capabilities{
+			"chromeOptions": map[string][]string{
+				"args": []string{"headless", "disable-gpu", "no-sandbox"},
+			},
+		},
+		),
+	)
+
 	Expect(err).NotTo(HaveOccurred())
 })
 
