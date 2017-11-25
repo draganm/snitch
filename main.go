@@ -15,7 +15,6 @@ import (
 	_ "net/http/pprof"
 
 	"github.com/draganm/immersadb"
-	"github.com/draganm/immersadb/dbpath"
 	"github.com/draganm/immersadb/modifier"
 	"github.com/draganm/kickback"
 	"github.com/draganm/snitch/executor"
@@ -77,22 +76,22 @@ func main() {
 		},
 
 		Action: func(c *cli.Context) error {
-			db, err := immersadb.New("db", 10*1024*1024)
+			db, err := immersadb.New("db")
 			if err != nil {
 				return err
 			}
 
-			err = db.Transaction(func(ew modifier.EntityWriter) error {
-				if !ew.Exists(dbpath.New("targets")) {
-					err2 := ew.CreateMap(dbpath.New("targets"))
+			err = db.Transaction(func(m modifier.MapWriter) error {
+				if !m.HasKey("targets") {
+					err2 := m.CreateMap("targets", nil)
 					if err2 != nil {
 						return err2
 					}
 				}
 
-				if !ew.Exists(dbpath.New("status")) {
+				if !m.HasKey("status") {
 					status := executor.StatusList{}
-					err2 := ew.CreateData(dbpath.New("status"), (&status).Write)
+					err2 := m.SetData("status", (&status).Write)
 					if err2 != nil {
 						return err2
 					}
@@ -104,20 +103,16 @@ func main() {
 				return err
 			}
 
-			err = db.GC()
-			if err != nil {
-				return err
-			}
-
 			handlers := []negroni.Handler{}
 
 			if c.Bool("oauth2") {
 
 				var cookiestoreSecret []byte
 
-				err := db.Transaction(func(ew modifier.EntityWriter) error {
-					cookieStoreSecretPath := dbpath.New("cookieStoreSecret")
-					if !ew.Exists(cookieStoreSecretPath) {
+				err := db.Transaction(func(m modifier.MapWriter) error {
+
+					// cookieStoreSecretPath := dbpath.New("cookieStoreSecret")
+					if !m.HasKey("cookieStoreSecret") {
 						cookiestoreSecret = []byte(c.String("cookie-store-secret"))
 						if len(cookiestoreSecret) == 0 {
 							cookiestoreSecret = make([]byte, 20)
@@ -126,7 +121,7 @@ func main() {
 								return err
 							}
 						}
-						err = ew.CreateData(cookieStoreSecretPath, func(w io.Writer) error {
+						err = m.SetData("cookieStoreSecret", func(w io.Writer) error {
 							_, err2 := w.Write(cookiestoreSecret)
 							return err2
 						})
@@ -134,12 +129,20 @@ func main() {
 							return err
 						}
 						return nil
+
 					}
-					data, err := ioutil.ReadAll(ew.EntityReaderFor(cookieStoreSecretPath).Data())
+					err = m.ReadData("cookieStoreSecret", func(r io.Reader) error {
+						data, err := ioutil.ReadAll(r)
+						if err != nil {
+							return err
+						}
+						cookiestoreSecret = data
+						return nil
+					})
+
 					if err != nil {
 						return err
 					}
-					cookiestoreSecret = data
 					return nil
 
 				})

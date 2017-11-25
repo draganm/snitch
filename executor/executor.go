@@ -137,10 +137,11 @@ func (e *executor) start() {
 }
 
 func (e *executor) updateStatus(st string) error {
-	return e.db.Transaction(func(ew modifier.EntityWriter) error {
+	return e.db.Transaction(func(m modifier.MapWriter) error {
 		statuses := []*Status{}
-		statusPath := dbpath.New("status")
-		err := json.NewDecoder(ew.EntityReaderFor(statusPath).Data()).Decode(&statuses)
+		err := m.ReadData("status", func(r io.Reader) error {
+			return json.NewDecoder(r).Decode(&statuses)
+		})
 		if err != nil {
 			return err
 		}
@@ -150,7 +151,7 @@ func (e *executor) updateStatus(st string) error {
 				s.Status = st
 			}
 		}
-		return ew.CreateData(statusPath, func(w io.Writer) error {
+		return m.SetData("status", func(w io.Writer) error {
 			return json.NewEncoder(w).Encode(statuses)
 		})
 	})
@@ -284,33 +285,37 @@ type logEntry struct {
 
 func (e *executor) log(level string, fields interface{}) error {
 	json.NewEncoder(os.Stdout).Encode(logEntry{Time: time.Now(), Fields: fields, Level: level})
-	return e.db.Transaction(func(ew modifier.EntityWriter) error {
-		err := ew.CreateData(dbpath.New("targets", e.id, "log", 0), func(w io.Writer) error {
-			return json.NewEncoder(w).Encode(logEntry{Time: time.Now(), Fields: fields, Level: level})
+	return e.db.Transaction(func(m modifier.MapWriter) error {
+		return m.ModifyMap("targets", func(m modifier.MapWriter) error {
+			return m.ModifyMap(e.id, func(m modifier.MapWriter) error {
+				return m.ModifyArray("log", func(m modifier.ArrayWriter) error {
+					err := m.PrependData(func(w io.Writer) error {
+						return json.NewEncoder(w).Encode(logEntry{Time: time.Now(), Fields: fields, Level: level})
+					})
+					if err != nil {
+						return err
+					}
+					if m.Size() > maxLogLength {
+						err = m.DeleteLast()
+						if err != nil {
+							return err
+						}
+					}
+					return nil
+				})
+			})
 		})
-		if err != nil {
-			return err
-		}
-		logReader := ew.EntityReaderFor(dbpath.New("targets", e.id, "log"))
-		s := logReader.Size()
 
-		if s <= maxLogLength {
-			return nil
-		}
-
-		err = ew.Delete(dbpath.New("targets", e.id, "log", int(s-1)))
-		if err != nil {
-			return nil
-		}
-
-		return nil
 	})
 }
 
 func (e *executor) update(s string) error {
-	return e.db.Transaction(func(w modifier.EntityWriter) error {
+	return e.db.Transaction(func(m modifier.MapWriter) error {
 		statuses := []*Status{}
-		err := json.NewDecoder(w.EntityReaderFor(dbpath.New("status")).Data()).Decode(statuses)
+
+		err := m.ReadData("status", func(r io.Reader) error {
+			return json.NewDecoder(r).Decode(statuses)
+		})
 		if err != nil {
 			return err
 		}
@@ -320,7 +325,7 @@ func (e *executor) update(s string) error {
 				st.Status = s
 			}
 		}
-		return w.CreateData(dbpath.New("status"), func(w io.Writer) error {
+		return m.SetData("status", func(w io.Writer) error {
 			return json.NewEncoder(w).Encode(statuses)
 		})
 	})

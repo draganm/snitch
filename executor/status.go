@@ -3,8 +3,6 @@ package executor
 import (
 	"encoding/json"
 	"io"
-
-	"github.com/draganm/immersadb/modifier"
 )
 
 type Status struct {
@@ -15,8 +13,8 @@ type Status struct {
 
 type StatusList []Status
 
-func (sl *StatusList) Read(r modifier.EntityReader) error {
-	return json.NewDecoder(r.Data()).Decode(sl)
+func (sl *StatusList) Read(r io.Reader) error {
+	return json.NewDecoder(r).Decode(sl)
 }
 
 func (sl *StatusList) Write(w io.Writer) error {

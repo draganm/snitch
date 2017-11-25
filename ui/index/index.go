@@ -59,7 +59,7 @@ func init() {
 				status = nil
 				return
 			}
-			err := (&status).Read(er)
+			err := (&status).Read(er.Data())
 			if err != nil {
 				// TODO use alert
 				log.Println(err)

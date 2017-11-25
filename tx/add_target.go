@@ -1,7 +1,6 @@
 package tx
 
 import (
-	"github.com/draganm/immersadb/dbpath"
 	"github.com/draganm/immersadb/modifier"
 	"github.com/draganm/snitch/executor"
 	uuid "github.com/satori/go.uuid"
@@ -9,24 +8,25 @@ import (
 
 func (t TX) AddTarget(c *executor.Config) (string, error) {
 	id := uuid.NewV4().String()
-	return id, t.Transaction(func(ew modifier.EntityWriter) error {
-		err := ew.CreateMap(dbpath.New("targets", id))
-		if err != nil {
-			return err
-		}
+	return id, t.Transaction(func(m modifier.MapWriter) error {
+		err := m.ModifyMap("targets", func(m modifier.MapWriter) error {
+			return m.CreateMap(id, func(m modifier.MapWriter) error {
+				err := m.SetData("config", c.Write)
+				if err != nil {
+					return err
+				}
+				return m.CreateArray("log", nil)
+			})
+		})
 
-		err = ew.CreateData(dbpath.New("targets", id, "config"), c.Write)
-		if err != nil {
-			return err
-		}
-
-		err = ew.CreateArray(dbpath.New("targets", id, "log"))
 		if err != nil {
 			return err
 		}
 
 		status := executor.StatusList{}
-		err = status.Read(ew.EntityReaderFor(dbpath.New("status")))
+
+		err = m.ReadData("status", status.Read)
+
 		if err != nil {
 			return err
 		}
@@ -37,7 +37,8 @@ func (t TX) AddTarget(c *executor.Config) (string, error) {
 			Status: "unknown",
 		})
 
-		err = ew.CreateData(dbpath.New("status"), (&status).Write)
+		err = m.SetData("status", status.Write)
+
 		if err != nil {
 			return err
 		}
